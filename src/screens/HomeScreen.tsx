@@ -9,6 +9,7 @@ import {
     Dimensions,
 } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { useNavigation } from '@react-navigation/native';
 import {
     MapPin,
     Bell,
@@ -43,6 +44,7 @@ const SERVICES = [
 
 export default function HomeScreen() {
     const insets = useSafeAreaInsets();
+    const navigation = useNavigation<any>();
 
     return (
         <View style={styles.root}>
@@ -58,7 +60,11 @@ export default function HomeScreen() {
                 </TouchableOpacity>
 
                 {/* Bell */}
-                <TouchableOpacity style={styles.bellBtn} activeOpacity={0.8}>
+                <TouchableOpacity
+                    style={styles.bellBtn}
+                    activeOpacity={0.8}
+                    onPress={() => navigation.navigate('Notifications')}
+                >
                     <Bell size={20} color="#333" strokeWidth={2} />
                     <View style={styles.bellDot} />
                 </TouchableOpacity>

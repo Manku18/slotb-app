@@ -6,8 +6,9 @@ import {
 import {
     Calendar, CreditCard, Tag, Star, Bell,
     Gift, Zap, AlertCircle, Trash2, CheckCheck,
-    ShoppingBag, Megaphone
+    ShoppingBag, Megaphone, ArrowLeft
 } from 'lucide-react-native';
+import { useNavigation } from '@react-navigation/native';
 import { Colors } from '../constants/Colors';
 
 // ─── Types ───────────────────────────────────────────────────────────────────
@@ -105,6 +106,7 @@ const SectionHeader: React.FC<{ label: string }> = ({ label }) => (
 
 // ─── Main ──────────────────────────────────────────────────────────────────────
 export default function NotificationScreen() {
+    const navigation = useNavigation();
     const [activeTab, setActiveTab] = useState<string>('All');
     const [notifs, setNotifs] = useState<Notif[]>(NOTIFICATIONS);
 
@@ -134,6 +136,12 @@ export default function NotificationScreen() {
             {/* ── Header ── */}
             <Animated.View style={[styles.header, { opacity: headerOpacity, transform: [{ translateY: headerY }] }]}>
                 <View style={styles.headerLeft}>
+                    <TouchableOpacity
+                        onPress={() => navigation.goBack()}
+                        style={{ marginRight: 12 }}
+                    >
+                        <ArrowLeft color={Colors.text} size={22} strokeWidth={2.5} />
+                    </TouchableOpacity>
                     <Bell color={Colors.text} size={22} strokeWidth={2.5} />
                     {unread.length > 0 && (
                         <View style={styles.badge}><Text style={styles.badgeText}>{unread.length}</Text></View>
