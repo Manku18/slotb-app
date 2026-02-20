@@ -4,6 +4,7 @@ import { Home, User, Layers, Bell, Search } from 'lucide-react-native';
 import { View, StyleSheet, Platform } from 'react-native';
 import HomeScreen from '../screens/HomeScreen';
 import ProfileScreen from '../screens/ProfileScreen';
+import NotificationScreen from '../screens/NotificationScreen';
 import { Colors } from '../constants/Colors';
 
 const Tab = createBottomTabNavigator();
@@ -55,7 +56,7 @@ export default function TabNavigator() {
             />
             <Tab.Screen
                 name="Notifications"
-                component={HomeScreen}
+                component={NotificationScreen}
                 options={{
                     tabBarIcon: ({ color, focused }) => (
                         <View style={focused ? styles.activeTab : styles.inactiveTab}>
