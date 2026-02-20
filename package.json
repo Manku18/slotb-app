@@ -25,5 +25,9 @@
     "react-native-screens": "~4.16.0",
     "typescript": "~5.9.2"
   },
-  "private": true
+  "private": true,
+  "devDependencies": {
+    "@babel/core": "^7.29.0",
+    "babel-preset-expo": "^54.0.10"
+  }
 }
