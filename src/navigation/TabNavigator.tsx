@@ -1,23 +1,44 @@
 import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { Home, User, Layers, Bell, Search } from 'lucide-react-native';
-import { View, StyleSheet, Platform } from 'react-native';
+import { Home, LayoutGrid, Scissors, Dumbbell, User } from 'lucide-react-native';
+import { View, Text, StyleSheet, Platform } from 'react-native';
 import HomeScreen from '../screens/HomeScreen';
 import ProfileScreen from '../screens/ProfileScreen';
 import NotificationScreen from '../screens/NotificationScreen';
-import { Colors } from '../constants/Colors';
+
+// Placeholder screens for Services, Salon, Gym
+const ServicesScreen = () => (
+    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', backgroundColor: '#F6F7FA' }}>
+        <Text style={{ fontSize: 18, color: '#555' }}>Services Coming Soon</Text>
+    </View>
+);
+const SalonScreen = () => (
+    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', backgroundColor: '#F6F7FA' }}>
+        <Text style={{ fontSize: 18, color: '#555' }}>Salon Coming Soon</Text>
+    </View>
+);
+const GymScreen = () => (
+    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', backgroundColor: '#F6F7FA' }}>
+        <Text style={{ fontSize: 18, color: '#555' }}>Gym Coming Soon</Text>
+    </View>
+);
 
 const Tab = createBottomTabNavigator();
+
+const ACTIVE_COLOR = '#FF7A00';   // Orange – matches screenshot active tab
+const INACTIVE_COLOR = '#9E9E9E';
 
 export default function TabNavigator() {
     return (
         <Tab.Navigator
+            id="MainTabs"
             screenOptions={{
                 headerShown: false,
                 tabBarStyle: styles.tabBar,
-                tabBarActiveTintColor: Colors.primary,
-                tabBarInactiveTintColor: Colors.textMuted,
-                tabBarShowLabel: false,
+                tabBarActiveTintColor: ACTIVE_COLOR,
+                tabBarInactiveTintColor: INACTIVE_COLOR,
+                tabBarShowLabel: true,
+                tabBarLabelStyle: styles.label,
                 tabBarItemStyle: styles.tabBarItem,
             }}
         >
@@ -25,43 +46,44 @@ export default function TabNavigator() {
                 name="Home"
                 component={HomeScreen}
                 options={{
+                    tabBarLabel: 'Home',
                     tabBarIcon: ({ color, focused }) => (
-                        <View style={focused ? styles.activeTab : styles.inactiveTab}>
-                            <Home color={color} size={22} strokeWidth={focused ? 2.5 : 2} />
-                        </View>
+                        <Home
+                            color={color}
+                            size={23}
+                            strokeWidth={focused ? 2.5 : 2}
+                            fill={focused ? ACTIVE_COLOR : 'none'}
+                        />
                     ),
                 }}
             />
             <Tab.Screen
-                name="Search"
-                component={HomeScreen}
+                name="Services"
+                component={ServicesScreen}
                 options={{
+                    tabBarLabel: 'Services',
                     tabBarIcon: ({ color, focused }) => (
-                        <View style={focused ? styles.activeTab : styles.inactiveTab}>
-                            <Search color={color} size={22} strokeWidth={focused ? 2.5 : 2} />
-                        </View>
+                        <LayoutGrid color={color} size={23} strokeWidth={focused ? 2.5 : 2} />
                     ),
                 }}
             />
             <Tab.Screen
-                name="Ecosystem"
-                component={HomeScreen}
+                name="Salon"
+                component={SalonScreen}
                 options={{
+                    tabBarLabel: 'Salon',
                     tabBarIcon: ({ color, focused }) => (
-                        <View style={focused ? styles.activeTab : styles.inactiveTab}>
-                            <Layers color={color} size={22} strokeWidth={focused ? 2.5 : 2} />
-                        </View>
+                        <Scissors color={color} size={23} strokeWidth={focused ? 2.5 : 2} />
                     ),
                 }}
             />
             <Tab.Screen
-                name="Notifications"
-                component={NotificationScreen}
+                name="Gym"
+                component={GymScreen}
                 options={{
+                    tabBarLabel: 'Gym',
                     tabBarIcon: ({ color, focused }) => (
-                        <View style={focused ? styles.activeTab : styles.inactiveTab}>
-                            <Bell color={color} size={22} strokeWidth={focused ? 2.5 : 2} />
-                        </View>
+                        <Dumbbell color={color} size={23} strokeWidth={focused ? 2.5 : 2} />
                     ),
                 }}
             />
@@ -69,10 +91,9 @@ export default function TabNavigator() {
                 name="Profile"
                 component={ProfileScreen}
                 options={{
+                    tabBarLabel: 'Profile',
                     tabBarIcon: ({ color, focused }) => (
-                        <View style={focused ? styles.activeTab : styles.inactiveTab}>
-                            <User color={color} size={22} strokeWidth={focused ? 2.5 : 2} />
-                        </View>
+                        <User color={color} size={23} strokeWidth={focused ? 2.5 : 2} />
                     ),
                 }}
             />
@@ -82,37 +103,25 @@ export default function TabNavigator() {
 
 const styles = StyleSheet.create({
     tabBar: {
-        backgroundColor: Colors.white,
+        backgroundColor: '#FFFFFF',
         borderTopWidth: 1,
-        borderTopColor: Colors.border,
-        height: Platform.OS === 'ios' ? 84 : 68,
-        paddingBottom: Platform.OS === 'ios' ? 20 : 6,
-        paddingTop: Platform.OS === 'ios' ? 8 : 10,
-        elevation: 12,
+        borderTopColor: '#EFEFEF',
+        height: Platform.OS === 'ios' ? 88 : 64,
+        paddingBottom: Platform.OS === 'ios' ? 24 : 8,
+        paddingTop: 8,
+        elevation: 16,
         shadowColor: '#000',
-        shadowOffset: { width: 0, height: -4 },
-        shadowOpacity: 0.06,
-        shadowRadius: 12,
+        shadowOffset: { width: 0, height: -3 },
+        shadowOpacity: 0.07,
+        shadowRadius: 10,
     },
     tabBarItem: {
-        justifyContent: 'center',
-        alignItems: 'center',
-        flex: 1,
         paddingTop: 0,
         paddingBottom: 0,
     },
-    activeTab: {
-        alignItems: 'center',
-        justifyContent: 'center',
-        backgroundColor: '#ede9fe',
-        width: 46,
-        height: 46,
-        borderRadius: 14,
-    },
-    inactiveTab: {
-        alignItems: 'center',
-        justifyContent: 'center',
-        width: 46,
-        height: 46,
+    label: {
+        fontSize: 10,
+        fontWeight: '600',
+        marginTop: -2,
     },
 });
