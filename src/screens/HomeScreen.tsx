@@ -29,6 +29,11 @@ import {
     User,
     Star,
     Clock,
+    Brush,
+    Truck,
+    Flower2,
+    MoreHorizontal,
+    Wind,
 } from 'lucide-react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 
@@ -36,14 +41,14 @@ const { width } = Dimensions.get('window');
 
 // ── service grid items ──────────────────────────────────────────────────────
 const SERVICES = [
-    { id: '1', label: 'Cleaning', emoji: '✨', bg: '#FFF8E7', icon: Sparkles, color: '#F4B942' },
-    { id: '2', label: 'Repairs', emoji: '🔧', bg: '#EAF4FF', icon: Wrench, color: '#4A90D9' },
-    { id: '3', label: 'Painting', emoji: '🎨', bg: '#FFF0F5', icon: Palette, color: '#E05C9A' },
-    { id: '4', label: 'Movers', emoji: '📦', bg: '#FFF4EC', icon: Package, color: '#E07A3A' },
-    { id: '5', label: 'Massage', emoji: '💆', bg: '#FFF8E7', icon: Sparkles, color: '#F4B942' },
-    { id: '6', label: 'Salon', emoji: '✂️', bg: '#EAF4FF', icon: Scissors, color: '#4A90D9' },
-    { id: '7', label: 'Yoga', emoji: '🧘', bg: '#F0FFF4', icon: User, color: '#3CBB78' },
-    { id: '8', label: 'More', emoji: '+', bg: '#F5F5F5', icon: Plus, color: '#888888', isMore: true },
+    { id: '1', label: 'Cleaning', icon: Wind, color: '#0EA5E9', bg: '#F0F9FF' },
+    { id: '2', label: 'Repairs', icon: Wrench, color: '#6366F1', bg: '#EEF2FF' },
+    { id: '3', label: 'Painting', icon: Palette, color: '#EC4899', bg: '#FDF2F8' },
+    { id: '4', label: 'Movers', icon: Truck, color: '#F59E0B', bg: '#FFFBEB' },
+    { id: '5', label: 'Massage', icon: Flower2, color: '#8B5CF6', bg: '#F5F3FF' },
+    { id: '6', label: 'Salon', icon: Scissors, color: '#E91E63', bg: '#FFF1F2' },
+    { id: '7', label: 'Yoga', icon: User, color: '#10B981', bg: '#ECFDF5' },
+    { id: '8', label: 'More', icon: MoreHorizontal, color: '#6B7280', bg: '#F9FAFB', isMore: true },
 ];
 
 const TOP_SALONS = [
@@ -148,13 +153,14 @@ export default function HomeScreen() {
                 {/* Grid – 2 rows × 4 cols */}
                 <View style={styles.servicesGrid}>
                     {SERVICES.map((s) => (
-                        <TouchableOpacity key={s.id} style={styles.serviceItem} activeOpacity={0.75}>
+                        <TouchableOpacity
+                            key={s.id}
+                            style={styles.serviceItem}
+                            activeOpacity={0.7}
+                            onPress={() => s.label === 'Salon' ? navigation.navigate('Salon') : null}
+                        >
                             <View style={[styles.serviceIconBox, { backgroundColor: s.bg }]}>
-                                {s.isMore ? (
-                                    <Plus size={26} color={s.color} strokeWidth={2.4} />
-                                ) : (
-                                    <Text style={styles.serviceEmoji}>{s.emoji}</Text>
-                                )}
+                                <s.icon size={22} color={s.color} strokeWidth={2.2} />
                             </View>
                             <Text style={styles.serviceLabel}>{s.label}</Text>
                         </TouchableOpacity>
@@ -428,32 +434,30 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         flexWrap: 'wrap',
         gap: 12,
-        marginBottom: 22,
+        marginBottom: 24,
     },
     serviceItem: {
         width: (width - 32 - 36) / 4,
         alignItems: 'center',
-        gap: 6,
+        marginBottom: 8,
     },
     serviceIconBox: {
-        width: 64,
-        height: 64,
-        borderRadius: 18,
+        width: 62,
+        height: 62,
+        borderRadius: 20,
         alignItems: 'center',
         justifyContent: 'center',
+        marginBottom: 8,
         shadowColor: '#000',
-        shadowOffset: { width: 0, height: 2 },
-        shadowOpacity: 0.07,
-        shadowRadius: 5,
+        shadowOffset: { width: 0, height: 4 },
+        shadowOpacity: 0.05,
+        shadowRadius: 10,
         elevation: 2,
-    },
-    serviceEmoji: {
-        fontSize: 28,
     },
     serviceLabel: {
         fontSize: 12,
-        fontWeight: '600',
-        color: '#444',
+        fontWeight: '700',
+        color: '#1F2937',
         textAlign: 'center',
     },
 
