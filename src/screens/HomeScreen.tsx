@@ -7,6 +7,8 @@ import {
     TouchableOpacity,
     StatusBar,
     Dimensions,
+    Modal,
+    Image,
 } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useNavigation } from '@react-navigation/native';
@@ -25,6 +27,8 @@ import {
     Scissors,
     Plus,
     User,
+    Star,
+    Clock,
 } from 'lucide-react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 
@@ -40,6 +44,31 @@ const SERVICES = [
     { id: '6', label: 'Salon', emoji: '✂️', bg: '#EAF4FF', icon: Scissors, color: '#4A90D9' },
     { id: '7', label: 'Yoga', emoji: '🧘', bg: '#F0FFF4', icon: User, color: '#3CBB78' },
     { id: '8', label: 'More', emoji: '+', bg: '#F5F5F5', icon: Plus, color: '#888888', isMore: true },
+];
+
+const TOP_SALONS = [
+    {
+        id: 'ts1',
+        name: 'Glamour Studio & Spa',
+        rating: 4.9,
+        reviews: 312,
+        wait: '12 min',
+        distance: '0.8 km',
+        price: 299,
+        isOpen: true,
+        image: 'https://images.unsplash.com/photo-1560066984-138daaa8e25a?w=400&h=300&fit=crop',
+    },
+    {
+        id: 'ts2',
+        name: 'Luxe Haven Retreat',
+        rating: 4.8,
+        reviews: 245,
+        wait: '20 min',
+        distance: '1.2 km',
+        price: 499,
+        isOpen: true,
+        image: 'https://images.unsplash.com/photo-1521590832167-7bcbfaa6381f?w=400&h=300&fit=crop',
+    },
 ];
 
 export default function HomeScreen() {
@@ -132,7 +161,65 @@ export default function HomeScreen() {
                     ))}
                 </View>
 
-                {/* ── PROMO BANNER ──────────────────────────────────────────── */}
+                {/* ── TOP SALONS NEAR YOU ───────────────────────────────────── */}
+                <View style={[styles.sectionHeader, { marginTop: 8 }]}>
+                    <Text style={styles.sectionTitle}>Top Salons Near You</Text>
+                    <TouchableOpacity
+                        style={styles.seeAllBtn}
+                        activeOpacity={0.7}
+                        onPress={() => navigation.navigate('Salon')}
+                    >
+                        <ChevronRight size={20} color="#555" />
+                    </TouchableOpacity>
+                </View>
+
+                <ScrollView
+                    horizontal
+                    showsHorizontalScrollIndicator={false}
+                    contentContainerStyle={styles.topSalonsRow}
+                >
+                    {TOP_SALONS.map((salon) => (
+                        <TouchableOpacity key={salon.id} style={styles.tsCard} activeOpacity={0.9}>
+                            <Image source={{ uri: salon.image }} style={styles.tsImage} />
+                            {salon.isOpen && (
+                                <View style={styles.tsOpenBadge}>
+                                    <Text style={styles.tsOpenText}>Open</Text>
+                                </View>
+                            )}
+                            <View style={styles.tsInfo}>
+                                <View style={styles.tsNameRow}>
+                                    <Text style={styles.tsName} numberOfLines={1}>{salon.name}</Text>
+                                    <View style={styles.tsVerified}>
+                                        <Text style={{ color: '#fff', fontSize: 8 }}>✓</Text>
+                                    </View>
+                                </View>
+                                <View style={styles.tsRatingRow}>
+                                    <Star size={14} color="#FBBF24" fill="#FBBF24" />
+                                    <Text style={styles.tsRating}>{salon.rating}</Text>
+                                    <Text style={styles.tsReviews}>({salon.reviews} reviews)</Text>
+                                </View>
+                                <View style={styles.tsMetaRow}>
+                                    <View style={styles.tsMetaItem}>
+                                        <Clock size={12} color="#F87171" strokeWidth={2.5} />
+                                        <Text style={styles.tsMetaText}>{salon.wait} wait</Text>
+                                    </View>
+                                    <View style={styles.tsMetaItem}>
+                                        <MapPin size={12} color="#9CA3AF" strokeWidth={2.5} />
+                                        <Text style={styles.tsMetaText}>{salon.distance}</Text>
+                                    </View>
+                                </View>
+                                <View style={styles.tsFooter}>
+                                    <Text style={styles.tsPriceLabel}>From <Text style={styles.tsPrice}>₹{salon.price}</Text></Text>
+                                    <TouchableOpacity style={styles.tsBookBtn}>
+                                        <Text style={styles.tsBookBtnText}>Book Now</Text>
+                                    </TouchableOpacity>
+                                </View>
+                            </View>
+                        </TouchableOpacity>
+                    ))}
+                </ScrollView>
+
+                {/* ── PROMO BANNER ─────────────────────────────────────────── */}
                 <TouchableOpacity activeOpacity={0.88} style={styles.promoCard}>
                     <LinearGradient
                         colors={['#FF8C00', '#FF5E00']}
@@ -404,5 +491,128 @@ const styles = StyleSheet.create({
         backgroundColor: '#fff',
         alignItems: 'center',
         justifyContent: 'center',
+    },
+
+    /* Top Salons */
+    topSalonsRow: {
+        paddingHorizontal: 16,
+        gap: 16,
+        paddingBottom: 20,
+    },
+    tsCard: {
+        width: 280,
+        backgroundColor: '#fff',
+        borderRadius: 20,
+        overflow: 'hidden',
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 4 },
+        shadowOpacity: 0.08,
+        shadowRadius: 12,
+        elevation: 5,
+    },
+    tsImage: {
+        width: '100%',
+        height: 140,
+        backgroundColor: '#f3f4f6',
+    },
+    tsOpenBadge: {
+        position: 'absolute',
+        top: 12,
+        left: 12,
+        backgroundColor: '#DCFCE7',
+        paddingHorizontal: 10,
+        paddingVertical: 5,
+        borderRadius: 12,
+    },
+    tsOpenText: {
+        color: '#166534',
+        fontSize: 11,
+        fontWeight: '700',
+    },
+    tsInfo: {
+        padding: 14,
+    },
+    tsNameRow: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        gap: 6,
+        marginBottom: 4,
+    },
+    tsName: {
+        fontSize: 16,
+        fontWeight: '800',
+        color: '#1F2937',
+        flex: 1,
+    },
+    tsVerified: {
+        width: 14,
+        height: 14,
+        borderRadius: 7,
+        backgroundColor: '#3B82F6',
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+    tsRatingRow: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        gap: 4,
+        marginBottom: 10,
+    },
+    tsRating: {
+        fontSize: 13,
+        fontWeight: '700',
+        color: '#1F2937',
+    },
+    tsReviews: {
+        fontSize: 13,
+        color: '#9CA3AF',
+    },
+    tsMetaRow: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        gap: 12,
+        marginBottom: 14,
+    },
+    tsMetaItem: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        gap: 4,
+        backgroundColor: '#F3F4F6',
+        paddingHorizontal: 8,
+        paddingVertical: 4,
+        borderRadius: 8,
+    },
+    tsMetaText: {
+        fontSize: 11,
+        color: '#4B5563',
+        fontWeight: '600',
+    },
+    tsFooter: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        borderTopWidth: 1,
+        borderTopColor: '#F3F4F6',
+        paddingTop: 12,
+    },
+    tsPriceLabel: {
+        fontSize: 12,
+        color: '#9CA3AF',
+    },
+    tsPrice: {
+        fontSize: 16,
+        fontWeight: '800',
+        color: '#E91E63',
+    },
+    tsBookBtn: {
+        backgroundColor: '#E91E63',
+        paddingHorizontal: 16,
+        paddingVertical: 8,
+        borderRadius: 15,
+    },
+    tsBookBtnText: {
+        color: '#fff',
+        fontSize: 12,
+        fontWeight: '700',
     },
 });
