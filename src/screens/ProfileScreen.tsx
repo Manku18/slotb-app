@@ -13,7 +13,8 @@ import {
     UserPlus,
     Settings,
     CreditCard,
-    Zap
+    Zap,
+    LucideIcon
 } from 'lucide-react-native';
 import Animated, {
     useSharedValue,
@@ -26,7 +27,13 @@ import { Colors } from '../constants/Colors';
 
 const { width } = Dimensions.get('window');
 
-const ActionItem = ({ icon: Icon, label, color }) => (
+interface ActionItemProps {
+    icon: LucideIcon;
+    label: string;
+    color: string;
+}
+
+const ActionItem: React.FC<ActionItemProps> = ({ icon: Icon, label, color }) => (
     <TouchableOpacity style={styles.actionItem} activeOpacity={0.7}>
         <View style={[styles.actionIconContainer, { backgroundColor: `${color}15` }]}>
             <Icon color={color} size={24} />
@@ -35,7 +42,14 @@ const ActionItem = ({ icon: Icon, label, color }) => (
     </TouchableOpacity>
 );
 
-const SettingItem = ({ icon: Icon, label, showChevron = true, highlight = false }) => (
+interface SettingItemProps {
+    icon: LucideIcon;
+    label: string;
+    showChevron?: boolean;
+    highlight?: boolean;
+}
+
+const SettingItem: React.FC<SettingItemProps> = ({ icon: Icon, label, showChevron = true, highlight = false }) => (
     <TouchableOpacity style={styles.settingItem} activeOpacity={0.7}>
         <View style={styles.settingLeft}>
             <View style={[styles.settingIconContainer, highlight && { backgroundColor: `${Colors.primary}20` }]}>
@@ -51,17 +65,17 @@ export default function ProfileScreen() {
     const sparkleValue = useSharedValue(0);
 
     useEffect(() => {
-        sparkleValue.value = withRepeat(
+        sparkleValue.set(withRepeat(
             withTiming(1, { duration: 2000 }),
             -1,
             true
-        );
+        ));
     }, []);
 
     const animatedSparkle = useAnimatedStyle(() => {
         return {
-            opacity: interpolate(sparkleValue.value, [0, 0.5, 1], [0.3, 1, 0.3]),
-            transform: [{ scale: interpolate(sparkleValue.value, [0, 1], [0.8, 1.2]) }],
+            opacity: interpolate(sparkleValue.get(), [0, 0.5, 1], [0.3, 1, 0.3]),
+            transform: [{ scale: interpolate(sparkleValue.get(), [0, 1], [0.8, 1.2]) }],
         };
     });
 

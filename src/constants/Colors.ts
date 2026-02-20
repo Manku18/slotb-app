@@ -10,4 +10,6 @@ export const Colors = {
     white: '#ffffff',
     black: '#000000',
     glassBorder: 'rgba(255, 255, 255, 0.1)',
-};
+} as const;
+
+export type ColorTheme = typeof Colors;

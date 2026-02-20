@@ -3,7 +3,7 @@ import { StyleSheet, View, Text, SafeAreaView } from 'react-native';
 import { Colors } from '../constants/Colors';
 import { Home } from 'lucide-react-native';
 
-export default function HomeScreen() {
+const HomeScreen: React.FC = () => {
     return (
         <SafeAreaView style={styles.container}>
             <View style={styles.content}>
@@ -15,7 +15,7 @@ export default function HomeScreen() {
             </View>
         </SafeAreaView>
     );
-}
+};
 
 const styles = StyleSheet.create({
     container: {
@@ -50,3 +50,5 @@ const styles = StyleSheet.create({
         lineHeight: 24,
     },
 });
+
+export default HomeScreen;
