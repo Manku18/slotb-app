@@ -65,17 +65,17 @@ export default function ProfileScreen() {
     const sparkleValue = useSharedValue(0);
 
     useEffect(() => {
-        sparkleValue.set(withRepeat(
+        sparkleValue.value = withRepeat(
             withTiming(1, { duration: 2000 }),
             -1,
             true
-        ));
+        );
     }, []);
 
     const animatedSparkle = useAnimatedStyle(() => {
         return {
-            opacity: interpolate(sparkleValue.get(), [0, 0.5, 1], [0.3, 1, 0.3]),
-            transform: [{ scale: interpolate(sparkleValue.get(), [0, 1], [0.8, 1.2]) }],
+            opacity: interpolate(sparkleValue.value, [0, 0.5, 1], [0.3, 1, 0.3]),
+            transform: [{ scale: interpolate(sparkleValue.value, [0, 1], [0.8, 1.2]) }],
         };
     });
 
